@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  database:
+    container_name: database
+    image: postgres:12.8
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user
+      - POSTGRES_DB=promotion_app
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+  app:
+    container_name: promotion-app
+    image: promotion-app
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+    ports:
+      - 4000:4000
+volumes:
+  db:
