@@ -11,7 +11,10 @@ import (
 func main() {
 
 	router := mux.NewRouter()
-	router.HandleFunc("/hello", controller.HelloHandler)
+
+	router.HandleFunc("/promotions", controller.GetAllPromotions).Methods(http.MethodGet)
+	router.HandleFunc("/promotions", controller.AddPromotion).Methods(http.MethodPost)
+	router.HandleFunc("/promotions/{id}", controller.GetPromotionById).Methods(http.MethodGet)
 
 	log.Printf("Server started at %s", time.Now())
 
