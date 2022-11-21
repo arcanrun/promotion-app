@@ -18,6 +18,5 @@ func main() {
 	router.HandleFunc("/promotions/{id}", controller.GetPromotionById).Methods(http.MethodGet)
 
 	log.Printf("Server started at %s", time.Now())
-
 	http.ListenAndServe(":8080", router) //TODO: port to envs
 }
