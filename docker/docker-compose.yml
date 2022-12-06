@@ -1,0 +1,44 @@
+version: "3.3"
+
+volumes:
+  db_promotion:
+    driver: local
+
+networks:
+  promotion-local:
+    driver: bridge
+
+services:
+  postgresql:
+    image: postgres:13.1-alpine
+    restart: always
+    volumes:
+      - db_promotion:/var/lib/postgresql/data
+    networks:
+      - promotion-local
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: promotion_app
+
+  promotion-app:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DB_PSWD: postgres
+      DB_USER: postgres
+      DB_PORT: 5432
+      DB_NAME: promotion_app
+      DB_DRIVER: postgres
+      DB_URL: postgresql
+      PROFILE: docker-compose
+    ports:
+      - 8080:8080
+    networks:
+      - promotion-local
+    depends_on:
+      - postgresql
