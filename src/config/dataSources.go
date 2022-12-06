@@ -12,6 +12,7 @@ import (
 var DB *gorm.DB
 
 func DataSource() {
+	//TODO: default file
 	props := properties.MustLoadFile("src/resources/application-${PROFILE}.properties", properties.UTF8)
 	dbUser, _ := props.Get("datasource.user")
 	dbPasswd, _ := props.Get("datasource.password")
