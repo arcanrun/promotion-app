@@ -10,7 +10,7 @@ const rowAffectedTmpl = "rows affected: %d"
 
 func GetAllPromotions() []model.Promotion {
 	var promotions []model.Promotion
-	result := config.DataSource().Find(&promotions)
+	result := config.DB.Debug().Find(&promotions)
 
 	log.Printf(rowAffectedTmpl, result.RowsAffected)
 
@@ -18,14 +18,14 @@ func GetAllPromotions() []model.Promotion {
 }
 
 func Save(promotion model.Promotion) error {
-	result := config.DataSource().Create(&promotion)
+	result := config.DB.Debug().Create(&promotion)
 
 	return result.Error
 }
 
 func GetPromotingById(id int64) (model.Promotion, error) {
 	var promotion model.Promotion
-	result := config.DataSource().First(&promotion, id)
+	result := config.DB.Debug().First(&promotion, id)
 
 	log.Printf(rowAffectedTmpl, result.RowsAffected)
 

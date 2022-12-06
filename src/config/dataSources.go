@@ -9,7 +9,9 @@ import (
 	"log"
 )
 
-func DataSource() *gorm.DB {
+var DB *gorm.DB
+
+func DataSource() {
 	props := properties.MustLoadFile("src/resources/application-${PROFILE}.properties", properties.UTF8)
 	dbUser, _ := props.Get("datasource.user")
 	dbPasswd, _ := props.Get("datasource.password")
@@ -21,17 +23,19 @@ func DataSource() *gorm.DB {
 
 	log.Println(dbURL)
 
-	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
+	database, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalln(err)
+	} else {
+		log.Printf("Database connection is established: %s %s", dbUrl, dbPort)
 	}
 
-	migrationError := db.AutoMigrate(&model.Promotion{})
+	migrationError := database.AutoMigrate(&model.Promotion{})
 
 	if migrationError != nil {
 		log.Fatalln(migrationError.Error())
 	}
 
-	return db
+	DB = database
 }

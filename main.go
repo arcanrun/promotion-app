@@ -11,6 +11,7 @@ import (
 
 func main() {
 	config.DataSource()
+
 	router := mux.NewRouter()
 
 	router.HandleFunc("/promotions", controller.GetAllPromotions).Methods(http.MethodGet)
