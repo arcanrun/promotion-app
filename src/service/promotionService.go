@@ -11,7 +11,7 @@ func GetAllPromotions() []model.Promotion {
 	return repository.GetAllPromotions()
 }
 
-func AddPromotion(dto dto.PromotionDto) {
+func AddPromotion(dto dto.PromotionDto) error {
 	promotion := model.Promotion{
 		Id:             rand.Int63(),
 		OriginalId:     dto.OriginalId,
@@ -19,7 +19,7 @@ func AddPromotion(dto dto.PromotionDto) {
 		ExpirationDate: dto.ExpirationDate,
 	}
 
-	repository.Save(promotion)
+	return repository.Save(promotion)
 }
 
 func GetPromotingById(id int64) (dto.PromotionResponseDto, error) {

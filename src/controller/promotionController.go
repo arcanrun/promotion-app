@@ -27,7 +27,12 @@ func AddPromotion(writer http.ResponseWriter, request *http.Request) {
 		var incomingDto dto.PromotionDto
 
 		json.Unmarshal(body, &incomingDto)
-		service.AddPromotion(incomingDto)
+
+		err := service.AddPromotion(incomingDto)
+
+		if err != nil {
+			writer.WriteHeader(http.StatusInternalServerError)
+		}
 	}
 }
 
