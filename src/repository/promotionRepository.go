@@ -31,3 +31,9 @@ func GetPromotingById(id int64) (model.Promotion, error) {
 
 	return promotion, result.Error
 }
+
+func DeleteAll() {
+	result := config.DB.Debug().Exec("DELETE FROM promotions")
+
+	log.Printf(rowAffectedTmpl, result.RowsAffected)
+}
